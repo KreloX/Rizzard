@@ -1,0 +1,71 @@
+{
+  "hats": [
+    {
+      "name": "Wizard's Hat",
+      "src": "./res/img/wizardHat.png",
+      "hint": "A cool pointy hat."
+    },
+    {
+      "name": "Helmet",
+      "src": "./res/img/helmet.png",
+      "hint": "Placeholder"
+    },
+    {
+      "name": "Propeller Beanie",
+      "src": "./res/img/propellerBeanie.png",
+      "hint": "Placeholder"
+    },
+    {
+      "name": "Uncommon Hat",
+      "src": "./res/img/uncommonHat.png",
+      "hint": "Placeholder"
+    },
+    {
+      "name": "Challenger's Hat",
+      "src": "./res/img/challengersHat.png",
+      "hint": "20% chance of getting double items // Double enemies."
+    },
+    {
+      "name": "Fedora",
+      "src": "./res/img/fedora.png",
+      "hint": "Placeholder"
+    }
+  ],
+  "staves": [
+    {
+      "name": "Wizard's Staff",
+      "src": "./res/img/wizardsStaff.png",
+      "hint": "Shoots a projectile in a straight line."
+    },
+    {
+      "name": "Emerald Staff",
+      "src": "./res/img/emeraldStaff.png",
+      "hint": "Shoots homing projectiles."
+    },
+    {
+      "name": "Trident",
+      "src": "./res/img/trident.png",
+      "hint": "Shoots 3 projectiles in an angle."
+    },
+    {
+      "name": "Boomstaff",
+      "src": "./res/img/boomstaff.png",
+      "hint": "Shoots explosive projectiles."
+    },
+    {
+      "name": "Thunder Staff",
+      "src": "./res/img/thunderStaff.png",
+      "hint": "Calls a thunderbolt from above."
+    },
+    {
+      "name": "Frozen Tip",
+      "src": "./res/img/frozenTip.png",
+      "hint": "Placeholder"
+    },
+    {
+      "name": "Rainbow Staff",
+      "src": "./res/img/rainbowStaff.png",
+      "hint": "Placeholder"
+    }
+  ]
+}
