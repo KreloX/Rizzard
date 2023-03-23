@@ -1,5 +1,7 @@
 const main = document.getElementById("main");
 
+let selectedHat = (selectedStaff = 0);
+
 // Json Prep
 let gearFile;
 let gearData;
@@ -23,6 +25,8 @@ class Element {
     this.instance = document.createElement(this.type);
     this.parent.appendChild(this.instance);
     this.instance.id = this.id;
+    this.rect = this.instance.getBoundingClientRect();
+    this.instance.setAttribute("draggable", false);
     if (this.src != undefined) this.instance.src = this.src;
   }
   hide() {
@@ -57,12 +61,9 @@ class SelectButton extends Element {
   }
 }
 
-let selectedHat = (selectedStaff = 0);
-
 class Player extends Element {
-  constructor(wrapper, isPlayable) {
+  constructor(wrapper) {
     super("div", wrapper, "player");
-    this.isPlayable = isPlayable;
     this.body = document.createElement("img");
     this.hatElement = document.createElement("img");
     this.staffElement = document.createElement("img");
@@ -73,11 +74,18 @@ class Player extends Element {
     this.instance.appendChild(this.hatElement);
     this.instance.appendChild(this.staffElement);
     this.body.src = "./res/img/body.png";
+    this.body.setAttribute("draggable", false);
+    this.hatElement.setAttribute("draggable", false);
+    this.staffElement.setAttribute("draggable", false);
     this.updateGear();
   }
   async updateGear() {
-    this.hatElement.src = await gearData.hats[selectedHat].src;
-    this.staffElement.src = await gearData.staves[selectedStaff].src;
+    try {
+      this.hatElement.src = await gearData.hats[selectedHat].src;
+      this.staffElement.src = await gearData.staves[selectedStaff].src;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
@@ -85,11 +93,7 @@ class Player extends Element {
 const mainMenuWrapper = new Element("div", main, "mainMenuWrapper");
 const logo = new Element("div", mainMenuWrapper, "logo");
 logo.instance.innerText = "RIZZARD";
-const hatWrapper = new Element(
-  "div",
-  mainMenuWrapper.instance,
-  "selectWrapper"
-);
+const hatWrapper = new Element("div", mainMenuWrapper, "selectWrapper");
 const hatButtonLeft = new SelectButton(hatWrapper, true);
 const hatSelect = new Element("div", hatWrapper, "select");
 const hatButtonRight = new SelectButton(hatWrapper, false);
@@ -99,13 +103,9 @@ const staffButtonLeft = new SelectButton(staffWrapper, true);
 const staffSelect = new Element("div", staffWrapper, "select");
 const staffButtonRight = new SelectButton(staffWrapper, false);
 const staffHint = new Element("div", mainMenuWrapper, "selectHint");
-const playerPreview = new Player(mainMenuWrapper, false);
+const playerPreview = new Player(mainMenuWrapper);
 const startButton = new Element("div", mainMenuWrapper, "startButton");
 startButton.instance.innerText = "start";
-
-// Gameplay Init
-const gameplayWrapper = new Element("div", main, "gameplayWrapper");
-gameplayWrapper.hide();
 
 const updateSelect = () => {
   hatSelect.instance.innerText = gearData.hats[selectedHat].name;
@@ -147,6 +147,141 @@ staffButtonLeft.instance.onclick = () => {
   updateSelect();
 };
 
+// Gameplay
+let player;
+let playerPos = window.innerWidth / 2;
+let playerTop = (window.innerHeight / 100) * 68;
+
+let healthBar;
+let healthBarInside;
+let maxHealth;
+let health;
+let scoreCounter;
+let score;
+
+let speed;
+let maxJumps;
+let remainingJumps;
+let moveInterval;
+let jumpInterval;
+let propellerInterval;
+let propellerIterator = 0;
+
 startButton.instance.onclick = () => {
   mainMenuWrapper.hide();
+  speed = selectedHat == 1 ? 3 : 5;
+  remainingJumps = maxJumps = selectedHat == 2 ? 192 : 30;
+  health = maxHealth = 40;
+  score = 1;
+  const gameplayWrapper = new Element("div", main, "gameplayWrapper");
+  // Player Init
+  player = new Player(gameplayWrapper);
+  player.instance.style.scale = "0.7";
+  player.instance.style.left = playerPos + "px";
+  player.instance.style.top = playerTop + "px";
+  const propellerCheck = setInterval(() => {
+    if (propellerIterator == maxJumps / 6) {
+      clearInterval(propellerInterval);
+    }
+  }, 1);
+  const fallInterval = setInterval(() => {
+    if (playerTop == (window.innerHeight / 100) * 68) {
+      remainingJumps = maxJumps;
+      propellerIterator = 0;
+    }
+    if (playerTop + 6 > (window.innerHeight / 100) * 68) {
+      return;
+    }
+    playerTop += 6;
+    player.instance.style.top = playerTop + "px";
+  }, 30);
+  window.addEventListener("keydown", startMoving);
+  window.addEventListener("keyup", stopMoving);
+  document.onmousemove = (event) => updateStaffRotation(event);
+  // Hud Init
+  healthBar = new Element("div", gameplayWrapper, "healthBar");
+  healthBarInside = new Element("div", healthBar, "healthBarInside");
+  scoreCounter = new Element("div", gameplayWrapper, "scoreCounter");
+  scoreCounter.instance.innerText = score;
+};
+
+// Matematika těžká :((
+const updateStaffRotation = (event) => {
+  let rect = player.instance.getBoundingClientRect();
+  let a = event.clientX - playerPos + rect.width / 2;
+  let b =
+    window.innerHeight -
+    (window.innerHeight - playerTop) +
+    (rect.height / 100) * 56 -
+    event.clientY;
+  player.staffElement.style.transform = `rotate(${Math.atan2(a, b)}rad)`;
+};
+
+const startMoving = (event) => {
+  if (event.keyCode != 32) {
+    if (moveInterval) {
+      clearInterval(moveInterval);
+    }
+    moveInterval = setInterval(move, 10, event);
+    return;
+  }
+  if (selectedHat == 2) {
+    remainingJumps -= 96;
+    propellerIterator = 0;
+    if (remainingJumps > 0) {
+      clearInterval(propellerInterval);
+      propellerInterval = setInterval(() => {
+        propellerIterator++;
+        playerTop -= 6;
+        player.instance.style.top = playerTop + "px";
+      }, 10);
+    }
+    return;
+  }
+  if (jumpInterval) {
+    clearTimeout(jumpInterval);
+  }
+  if (remainingJumps == maxJumps) {
+    jumpInterval = setInterval(jump, 10);
+  }
+};
+
+const move = (event) => {
+  switch (event.keyCode) {
+    case 65:
+      if (parseInt(player.instance.style.left, 10) <= 0) {
+        break;
+      }
+      playerPos -= speed;
+      player.instance.style.left = playerPos + "px";
+      break;
+    case 68:
+      if (
+        parseInt(player.instance.style.left, 10) >=
+        window.innerWidth - player.rect.width
+      ) {
+        break;
+      }
+      playerPos += speed;
+      player.instance.style.left = playerPos + "px";
+      break;
+  }
+};
+
+const jump = () => {
+  if (remainingJumps > 0) {
+    remainingJumps--;
+    playerTop -= 6;
+    player.instance.style.top = playerTop + "px";
+  }
+};
+
+const stopMoving = (event) => {
+  if (event.keyCode != 32) {
+    clearInterval(moveInterval);
+    return;
+  }
+  if (event.keyCode == 32) {
+    clearInterval(jumpInterval);
+  }
 };

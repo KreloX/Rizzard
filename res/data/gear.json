@@ -2,33 +2,33 @@
   "hats": [
     {
       "name": "Wizard's Hat",
-      "src": "./res/img/wizardHat.png",
+      "src": "./res/img/wizardsHat.png",
       "hint": "A cool pointy hat."
     },
     {
       "name": "Helmet",
       "src": "./res/img/helmet.png",
-      "hint": "Placeholder"
+      "hint": "More armor. Less move speed."
     },
     {
       "name": "Propeller Beanie",
       "src": "./res/img/propellerBeanie.png",
-      "hint": "Placeholder"
+      "hint": "Has double jump. Can't control jump height."
     },
     {
       "name": "Uncommon Hat",
       "src": "./res/img/uncommonHat.png",
-      "hint": "Placeholder"
+      "hint": "Receive only uncommon cards."
     },
     {
       "name": "Challenger's Hat",
       "src": "./res/img/challengersHat.png",
-      "hint": "20% chance of getting double items // Double enemies."
+      "hint": "20% chance of getting double items. Double enemies."
     },
     {
       "name": "Fedora",
       "src": "./res/img/fedora.png",
-      "hint": "Placeholder"
+      "hint": "Can reroll for free."
     }
   ],
   "staves": [
@@ -40,7 +40,7 @@
     {
       "name": "Emerald Staff",
       "src": "./res/img/emeraldStaff.png",
-      "hint": "Shoots homing projectiles."
+      "hint": "Shoots homing projectiles and has higher attack speed but deals half damage."
     },
     {
       "name": "Trident",
@@ -60,12 +60,12 @@
     {
       "name": "Frozen Tip",
       "src": "./res/img/frozenTip.png",
-      "hint": "Placeholder"
+      "hint": "Projectiles pierce through enemies."
     },
     {
       "name": "Rainbow Staff",
       "src": "./res/img/rainbowStaff.png",
-      "hint": "Placeholder"
+      "hint": "Shoots random projectiles."
     }
   ]
 }
