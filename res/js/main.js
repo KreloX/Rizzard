@@ -2,6 +2,9 @@ const main = document.getElementById("main");
 
 let selectedHat = (selectedStaff = 0);
 
+// Odzlobřovací kód
+window.onresize = () => window.location.reload();
+
 // Json Prep
 let gearFile;
 let gearData;
@@ -148,12 +151,14 @@ staffButtonLeft.instance.onclick = () => {
 };
 
 // Gameplay
+let gameplayWrapper;
 let player;
 let playerPos = window.innerWidth / 2;
 let playerTop = (window.innerHeight / 100) * 68;
 
 let healthBar;
 let healthBarInside;
+let healthCounter;
 let maxHealth;
 let health;
 let scoreCounter;
@@ -169,14 +174,17 @@ let propellerIterator = 0;
 
 startButton.instance.onclick = () => {
   mainMenuWrapper.hide();
-  speed = selectedHat == 1 ? 3 : 5;
+  speed = selectedHat == 1 ? 1.5 : 2.5;
   remainingJumps = maxJumps = selectedHat == 2 ? 192 : 30;
-  health = maxHealth = 40;
+  health = maxHealth = 25;
   score = 1;
-  const gameplayWrapper = new Element("div", main, "gameplayWrapper");
+  gameplayWrapper = new Element("div", main, "gameplayWrapper");
+  new Element("div", gameplayWrapper, "borderLeft");
+  new Element("div", gameplayWrapper, "borderRight");
+  new Element("div", gameplayWrapper, "floor");
   // Player Init
   player = new Player(gameplayWrapper);
-  player.instance.style.scale = "0.7";
+  player.instance.style.scale = "0.5";
   player.instance.style.left = playerPos + "px";
   player.instance.style.top = playerTop + "px";
   const propellerCheck = setInterval(() => {
@@ -194,26 +202,28 @@ startButton.instance.onclick = () => {
     }
     playerTop += 6;
     player.instance.style.top = playerTop + "px";
-  }, 30);
+  }, 24);
   window.addEventListener("keydown", startMoving);
   window.addEventListener("keyup", stopMoving);
   document.onmousemove = (event) => updateStaffRotation(event);
   // Hud Init
   healthBar = new Element("div", gameplayWrapper, "healthBar");
   healthBarInside = new Element("div", healthBar, "healthBarInside");
+  healthCounter = new Element("div", gameplayWrapper, "healthCounter");
   scoreCounter = new Element("div", gameplayWrapper, "scoreCounter");
+  updateHealth();
   scoreCounter.instance.innerText = score;
+};
+
+const updateHealth = () => {
+  healthCounter.instance.innerText = `${health}/${maxHealth}`;
 };
 
 // Matematika těžká :((
 const updateStaffRotation = (event) => {
   let rect = player.instance.getBoundingClientRect();
-  let a = event.clientX - playerPos + rect.width / 2;
-  let b =
-    window.innerHeight -
-    (window.innerHeight - playerTop) +
-    (rect.height / 100) * 56 -
-    event.clientY;
+  let a = event.clientX - playerPos - rect.width;
+  let b = playerTop + rect.height - event.clientY;
   player.staffElement.style.transform = `rotate(${Math.atan2(a, b)}rad)`;
 };
 

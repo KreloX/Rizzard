@@ -2,6 +2,10 @@
   font-family: OldLondon;
   src: url(./OldLondon.ttf);
 }
+:root {
+  touch-action: pan-x pan-y;
+  height: 100%;
+}
 html,
 body {
   overflow: hidden;
@@ -99,25 +103,55 @@ body {
   z-index: 12;
   transform: rotate(30deg);
 }
+#gameplayWrapper #staff {
+  top: -16%;
+  transform-origin: center 75%;
+}
+#borderLeft,
+#borderRight {
+  position: absolute;
+  border-right: solid 0.4vh;
+  border-image: linear-gradient(to bottom, white, black) 1;
+  width: 2.2%;
+  height: 80%;
+  top: 0;
+}
+#borderRight {
+  border-right: none;
+  border-left: solid 0.4vh;
+  left: 97.4%;
+}
+#floor {
+  position: absolute;
+  border-top: white solid 0.6vh;
+  width: 94.8%;
+  left: 2.6%;
+  top: 85%;
+}
 #healthBar {
   position: absolute;
-  width: 20%;
-  height: 3%;
-  border: white solid 0.4vh;
-  margin-left: 1%;
-  margin-top: 0.5%;
+  width: 20.8%;
+  height: 1.5%;
+  border: #291515 solid 0.4vh;
+  margin-left: 5.2%;
+  margin-top: 0.6%;
 }
 #healthBarInside {
   position: relative;
-  width: 98%;
-  height: 80%;
-  background-color: white;
-  left: 1%;
-  top: 10%;
+  width: 100%;
+  height: 70%;
+  background-color: #db362c;
+  top: 15%;
+  border-radius: 2pt;
+}
+#healthCounter {
+  position: absolute;
+  font-size: 4vh;
+  left: 5.7%;
 }
 #scoreCounter {
-  font-size: 7vh;
+  font-size: 4vh;
   text-align: right;
-  margin-top: 0.5%;
-  margin-right: 1%;
+  margin-top: 1.8%;
+  margin-right: 4.5%;
 }
