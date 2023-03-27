@@ -92,6 +92,16 @@ class Player extends Element {
   }
 }
 
+class Projectile extends Element {
+  constructor(startX, startY, destX, destY) {
+    super("div", gameplayWrapper, "projectile");
+    this.startX = startX;
+    this.startY = startY;
+    this.destX = destX;
+    this.destY = destY;
+  }
+}
+
 // Main Menu Init
 const mainMenuWrapper = new Element("div", main, "mainMenuWrapper");
 const logo = new Element("div", mainMenuWrapper, "logo");
@@ -211,12 +221,16 @@ startButton.instance.onclick = () => {
   healthBarInside = new Element("div", healthBar, "healthBarInside");
   healthCounter = new Element("div", gameplayWrapper, "healthCounter");
   scoreCounter = new Element("div", gameplayWrapper, "scoreCounter");
-  updateHealth();
+  updateHealth(-2, 0);
   scoreCounter.instance.innerText = score;
 };
 
-const updateHealth = () => {
+const updateHealth = (hpIncrease, maxHpIncrease) => {
+  health += hpIncrease;
+  maxHealth += maxHpIncrease;
+  health = health <= maxHealth ? health : maxHealth;
   healthCounter.instance.innerText = `${health}/${maxHealth}`;
+  healthBarInside.instance.style.width = `${(health / maxHealth) * 100}%`;
 };
 
 // Matematika těžká :((
