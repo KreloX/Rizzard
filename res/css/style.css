@@ -23,6 +23,18 @@ body {
   width: 100%;
   height: 100%;
 }
+#backgroundImg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+#swarmImg {
+  position: absolute;
+  scale: 1.4;
+  top: 52%;
+  height: 11%;
+}
 #logo {
   position: absolute;
   font-size: 400%;
@@ -31,7 +43,15 @@ body {
   width: 100%;
   top: 4vh;
 }
-#startButton {
+#moveHint {
+  position: absolute;
+  left: 10%;
+  top: 20%;
+  width: 23.5%;
+  height: 25%;
+}
+#startButton,
+#retryButton {
   position: absolute;
   width: 27.1%;
   top: 79.4%;
@@ -44,8 +64,11 @@ body {
   border: white solid 0.4vh;
   outline: white solid 0.4vh;
   outline-offset: -1.3vh;
+  background-color: black;
+  z-index: 2;
 }
-#startButton:hover {
+#startButton:hover,
+#retryButton:hover {
   border-color: #f8ecb3;
   outline-color: #f8ecb3;
 }
@@ -56,6 +79,7 @@ body {
   height: max-content;
   margin: auto;
   top: 26vh;
+  z-index: 2;
 }
 #selectButton {
   width: 2vw;
@@ -75,6 +99,9 @@ body {
   margin: auto;
   margin-top: 4vh;
   top: 24vh;
+}
+#wip {
+  text-decoration: line-through;
 }
 #player {
   position: absolute;
@@ -111,7 +138,7 @@ body {
 #borderRight {
   position: absolute;
   border-right: solid 0.4vh;
-  border-image: linear-gradient(to bottom, white, black) 1;
+  border-image: linear-gradient(to bottom, #787776, black) 1;
   width: 2.2%;
   height: 80%;
   top: 0;
@@ -128,13 +155,26 @@ body {
   left: 2.6%;
   top: 85%;
 }
+#enemy {
+  position: absolute;
+  display: none;
+  width: 3.0%;
+  height: 8.5%;
+}
+#popoff {
+  position: absolute;
+  font-weight: bold;
+  font-size: 5vh;
+  z-index: 90;
+}
 #healthBar {
   position: absolute;
   width: 20.8%;
   height: 1.5%;
   border: #291515 solid 0.4vh;
   margin-left: 5.2%;
-  margin-top: 0.6%;
+  margin-top: 0.8%;
+  z-index: 100;
 }
 #healthBarInside {
   position: relative;
@@ -146,12 +186,126 @@ body {
 }
 #healthCounter {
   position: absolute;
-  font-size: 4vh;
+  font-size: 3.5vh;
   left: 5.7%;
+  font-family: OldLondon;
+  margin-top: 0.2%;
+  z-index: 100;
 }
-#scoreCounter {
-  font-size: 4vh;
+#scoreCounter,
+#soulsCounter {
+  font-size: 4.5vh;
   text-align: right;
-  margin-top: 1.8%;
+  margin-top: 1.4%;
   margin-right: 4.5%;
+  font-family: OldLondon;
+  z-index: 100;
+}
+#projectile {
+  position: absolute;
+  display: none;
+  background-color: #00f9fe;
+  width: 1%;
+  height: 2%;
+  border-radius: 50%;
+}
+#orb {
+  position: absolute;
+  width: 1%;
+  height: 2%;
+  border-radius: 50%;
+}
+#lightning {
+  position: absolute;
+  height: 85%;
+  width: 3.4%;
+  top: 0;
+}
+#overWindow {
+  position: absolute;
+  width: 35%;
+  height: 70%;
+  border: white solid 0.5vh;
+  background-color: black;
+  left: 32%;
+  top: 10%;
+}
+#gameOver {
+  position: absolute;
+  color: #e23d3d;
+  font-family: OldLondon;
+  text-align: center;
+  margin-top: 0;
+  font-size: 10vh;
+  width: 100%;
+}
+#gameOverImg {
+  position: absolute;
+  width: 46%;
+  height: 46%;
+  left: 27%;
+  top: 20%;
+}
+#scoreDisplay {
+  color: #dedede;
+  font-family: OldLondon;
+  font-size: 9vh;
+  width: 64%;
+  margin-left: 20%;
+  margin-top: 70%;
+}
+#red {
+  position: absolute;
+  color: #d61717;
+  text-align: right;
+  width: 38%;
+}
+#retryButton {
+  width: 70%;
+  top: 92%;
+  left: 14.6%;
+  background-color: black;
+}
+#selectionWrapper {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  column-gap: 1.8%;
+  top: 0;
+  width: 100%;
+  height: 99%;
+  z-index: 110;
+}
+#card {
+  background-color: black;
+  width: 16.5vw;
+  height: 45%;
+  border: white solid 0.5vh;
+}
+#card:hover {
+  border-color: #f8ecb3;
+}
+#cardName {
+  position: relative;
+  font-family: OldLondon;
+  left: 9%;
+  top: 1%;
+}
+#cardImg {
+  position: relative;
+  width: 72%;
+  height: 50%;
+  border: white solid 0.5vh;
+  left: 13%;
+  top: 4%;
+}
+#cardDesc {
+  position: relative;
+  width: 80%;
+  height: 30%;
+  left: 9%;
+  top: 6%;
+  font-size: 1.5vw;
 }

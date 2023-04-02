@@ -40,17 +40,17 @@
     {
       "name": "Emerald Staff",
       "src": "./res/img/emeraldStaff.png",
-      "hint": "Shoots homing projectiles and has higher attack speed but deals half damage."
+      "hint": "<span id='wip'>Shoots homing projectiles</span> and has higher attack speed but deals half damage."
     },
     {
       "name": "Trident",
       "src": "./res/img/trident.png",
-      "hint": "Shoots 3 projectiles in an angle."
+      "hint": "<span id='wip'>Shoots 3 projectiles in an angle.</span>"
     },
     {
       "name": "Boomstaff",
       "src": "./res/img/boomstaff.png",
-      "hint": "Shoots explosive projectiles."
+      "hint": "Shoots <span id='wip'>explosive</span> projectiles."
     },
     {
       "name": "Thunder Staff",
@@ -65,7 +65,250 @@
     {
       "name": "Rainbow Staff",
       "src": "./res/img/rainbowStaff.png",
-      "hint": "Shoots random projectiles."
+      "hint": "Shoots <span id='wip'>random</span> projectiles."
+    }
+  ],
+  "cards": [
+    {
+      "category": "common",
+      "cards": [
+        {
+          "name": "Catalyst",
+          "src": "./res/img/catalyst.png",
+          "desc": "Projectile damage +2"
+        },
+        {
+          "name": "Eyesight",
+          "src": "./res/img/eyesight.png",
+          "desc": "Critical chance +5%"
+        },
+        {
+          "name": "Growth",
+          "src": "./res/img/growth.png",
+          "desc": "Max. HP +10"
+        },
+        {
+          "name": "Impulse",
+          "src": "./res/img/impulse.png",
+          "desc": "Jump height +30%"
+        },
+        {
+          "name": "Renew",
+          "src": "./res/img/renew.png",
+          "desc": "Heal to max. HP"
+        },
+        {
+          "name": "Resist",
+          "src": "./res/img/resist.png",
+          "desc": "Defense +4%"
+        },
+        {
+          "name": "Resonance",
+          "src": "./res/img/resonance.png",
+          "desc": "Attack speed +12%"
+        },
+        {
+          "name": "Souls",
+          "src": "./res/img/souls.png",
+          "desc": "Chance to drop soul orb +1%"
+        },
+        {
+          "name": "Stability",
+          "src": "./res/img/stability.png",
+          "desc": "Projectile takes +1 hit before exploding"
+        },
+        {
+          "name": "Swift",
+          "src": "./res/img/swift.png",
+          "desc": "Movement Speed +20%"
+        }
+      ]
+    },
+    {
+      "category": "uncommon",
+      "cards": [
+        {
+          "name": "Catalyst+",
+          "src": "./res/img/catalyst.png",
+          "desc": "Projectile damage +4"
+        },
+        {
+          "name": "Charge",
+          "src": "./res/img/charge.png",
+          "desc": "Projectile size +20%"
+        },
+        {
+          "name": "Cloak",
+          "src": "./res/img/cloak.png",
+          "desc": "Invulnerability after taking damage +50% duration"
+        },
+        {
+          "name": "Growth+",
+          "src": "./res/img/growth.png",
+          "desc": "Max. HP +20"
+        },
+        {
+          "name": "Leech",
+          "src": "./res/img/leech.png",
+          "desc": "Life Steal of 3% Damage"
+        },
+        {
+          "name": "Luck",
+          "src": "./res/img/luck.png",
+          "desc": "Bigger chance to roll uncommon cards"
+        },
+        {
+          "name": "Orb",
+          "src": "./res/img/orb.png",
+          "desc": "Dead enemies have 5% chance to drop a healing orb"
+        },
+        {
+          "name": "Precision",
+          "src": "./res/img/precision.png",
+          "desc": "Critical deals +50% damage"
+        },
+        {
+          "name": "Resonance+",
+          "src": "./res/img/resonance.png",
+          "desc": "Attack Speed +24%"
+        },
+        {
+          "name": "Swift+",
+          "src": "./res/img/swift.png",
+          "desc": "Movement Speed +40%"
+        },
+        {
+          "name": "Thunderbolt",
+          "src": "./res/img/thunderbolt.png",
+          "desc": "Calls 2 thunderbolts from the skies every few seconds"
+        }
+      ]
+    },
+    {
+      "category": "epic",
+      "cards": [
+        {
+          "name": "Appraisal",
+          "src": "./res/img/appraisal.png",
+          "desc": "+1 item choice from now on"
+        },
+        {
+          "name": "Barrier",
+          "src": "./res/img/barrier.png",
+          "desc": "<span id='wip'>Creates a shield that blocks damage once every few seconds</span>"
+        },
+        {
+          "name": "Focus",
+          "src": "./res/img/focus.png",
+          "desc": "Gains attack speed every second you don't move. Resets every time you move"
+        },
+        {
+          "name": "Growth++",
+          "src": "./res/img/growth.png",
+          "desc": "Max. HP +40"
+        },
+        {
+          "name": "Leech+",
+          "src": "./res/img/leech.png",
+          "desc": "Life Steal of 9% Damage"
+        },
+        {
+          "name": "Overheat",
+          "src": "./res/img/overheat.png",
+          "desc": "Your body deals 40 damage on contact"
+        },
+        {
+          "name": "Thunderbolt+",
+          "src": "./res/img/thunderbolt.png",
+          "desc": "Calls 6 thunderbolts from the skies every few seconds"
+        },
+        {
+          "name": "Wound",
+          "src": "./res/img/wound.png",
+          "desc": "<span id='wip'>Dealing damage applies bleeding to the enemy</span>"
+        },
+        {
+          "name": "Tome",
+          "src": "./res/img/tome.png",
+          "desc": "New common items (white) you pick up are 35% more effective"
+        }
+      ]
+    },
+    {
+      "category": "ascension",
+      "color": "white",
+      "cards": [
+        {
+          "name": "Absorbent",
+          "src": "./res/img/absorbent.png",
+          "desc": "Every projectile that hits you when invulnerable heals you 1 HP"
+        },
+        {
+          "name": "Blessed",
+          "src": "./res/img/blessed.png",
+          "desc": "5% Chance of finding epic items"
+        },
+        {
+          "name": "Bloody Mage",
+          "src": "./res/img/bloodyMage.png",
+          "desc": "Bleeding deals damage faster"
+        },
+        {
+          "name": "Bunker",
+          "src": "./res/img/bunker.png",
+          "desc": "Gains +4 armor every second you don't move up to 95. Resets every wave"
+        },
+        {
+          "name": "Burning Man",
+          "src": "./res/img/burningMan.png",
+          "desc": "Deals your body damage every 2 seconds on a circle around you"
+        },
+        {
+          "name": "Dealer",
+          "src": "./res/img/dealer.png",
+          "desc": "You can reroll for free"
+        },
+        {
+          "name": "Desperate",
+          "src": "./res/img/desperate.png",
+          "desc": "Heals back to full HP at the beginning of every wave"
+        },
+        {
+          "name": "God of Thunder",
+          "src": "./res/img/godOfThunder.png",
+          "desc": "Your thunderbolts deal 3x more damage"
+        },
+        {
+          "name": "Hoarder",
+          "src": "./res/img/hoarder.png",
+          "desc": "Healing orbs you pick up give your next attack a charge (can stack)"
+        },
+        {
+          "name": "Marksman",
+          "src": "./res/img/marksman.png",
+          "desc": "Your first hit is always a critical"
+        },
+        {
+          "name": "Pac-Man",
+          "src": "./res/img/pacman.png",
+          "desc": "Every time your projectiles pass through an enemy projectile increase it's damage"
+        },
+        {
+          "name": "Protector",
+          "src": "./res/img/protector.png",
+          "desc": "When your shield breaks, shoot projectiles all around you"
+        },
+        {
+          "name": "Tryhard",
+          "src": "./res/img/tryhard.png",
+          "desc": "Does absolutely nothing"
+        },
+        {
+          "name": "Vampire",
+          "src": "./res/img/vampire.png",
+          "desc": "Half of all your damage returns as HP"
+        }
+      ]
     }
   ]
 }
