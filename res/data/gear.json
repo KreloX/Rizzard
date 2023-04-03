@@ -195,12 +195,12 @@
         {
           "name": "Barrier",
           "src": "./res/img/barrier.png",
-          "desc": "<span id='wip'>Creates a shield that blocks damage once every few seconds</span>"
+          "desc": "Creates a shield that blocks damage once every few seconds"
         },
         {
           "name": "Focus",
           "src": "./res/img/focus.png",
-          "desc": "Gains attack speed every second you don't move. Resets every time you move"
+          "desc": "<span id='wip'>Gains attack speed every second you don't move. Resets every time you move</span>"
         },
         {
           "name": "Growth++",

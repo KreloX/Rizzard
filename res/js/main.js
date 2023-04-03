@@ -1,13 +1,12 @@
 const main = document.getElementById("main");
 
-let selectedHat = (selectedStaff = 0);
+let selectedHat = (selectedStaff = souls = 0);
 
 // Odzlobřovací kód
 window.onresize = () => window.location.reload();
 
 // Json Prep
-let gearFile;
-let gearData;
+let gearFile, gearData;
 window.onload = async () => {
   try {
     gearFile = await fetch("./res/data/gear.json");
@@ -64,8 +63,7 @@ class SelectButton extends Element {
   }
 }
 
-let maxHealth;
-let health;
+let maxHealth, health, barrier, barrierElement;
 class Player extends Element {
   constructor(wrapper) {
     super("div", wrapper, "player");
@@ -92,6 +90,12 @@ class Player extends Element {
       // One premature json load
     }
   }
+  startInvulnerability() {
+    canHurt = false;
+    setTimeout(() => {
+      canHurt = true;
+    }, invulnerabilityTimer);
+  }
   shoot(event) {
     window.removeEventListener("click", player.shoot, event);
     setTimeout(() => {
@@ -101,9 +105,24 @@ class Player extends Element {
       new Projectile(event.clientX, event.clientY, player);
       return;
     }
-    new Lightning(event.clientX);
+    new Lightning(event.clientX, true);
   }
   updateHealth(hpIncrease, maxHpIncrease) {
+    if (hpIncrease < 0) {
+      this.startInvulnerability();
+      if (barrier) {
+        clearInterval(barrierInterval);
+        barrierInterval = setInterval(() => {
+          if (!barrier) {
+            barrierElement = new Element("div", player, "barrier");
+          }
+          barrier = true;
+        }, 16000 / epicCounters[1]);
+        hpIncrease = 0;
+        barrierElement.remove();
+        barrier = false;
+      }
+    }
     health += hpIncrease < 0 ? hpIncrease - hpIncrease * defense : hpIncrease;
     maxHealth += maxHpIncrease;
     health = health < 0 ? 0 : health <= maxHealth ? health : maxHealth;
@@ -120,6 +139,7 @@ class Player extends Element {
       clearInterval(fallingInterval);
       clearInterval(beanieInterval);
       clearInterval(thunderInterval);
+      clearInterval(barrierInterval);
       playerPos = window.innerWidth / 2;
       playerTop = (window.innerHeight / 100) * 68;
       window.removeEventListener("keydown", startMoving);
@@ -147,10 +167,12 @@ class Player extends Element {
 
 let lightningDamage;
 class Lightning extends Element {
-  constructor(pos) {
-    console.log(uncommonCounters[6]);
-    lightningDamage = 2 + uncommonCounters[6];
+  constructor(pos, isPlayer) {
     super("img", gameplayWrapper, "lightning", "./res/img/lightning.png");
+    this.isPlayer = isPlayer;
+    lightningDamage = this.isPlayer
+      ? 2 + uncommonCounters[6] + commonCounters[0] * 2
+      : 2 + uncommonCounters[6];
     this.pos = pos - window.innerWidth * 0.017;
     this.instance.style.left = this.pos + "px";
     this.rect = this.instance.getBoundingClientRect();
@@ -282,11 +304,7 @@ class Projectile extends Element {
     ) {
       this.remove();
       if (canHurt) {
-        player.updateHealth(-2, 0);
-        canHurt = false;
-        setTimeout(() => {
-          canHurt = true;
-        }, invulnerabilityTimer);
+        player.updateHealth(enemyDamage, 0);
       }
     }
   }
@@ -306,13 +324,13 @@ class Projectile extends Element {
   }
 }
 
-let enemyGap;
+let enemyHealth, enemyDamage;
 class Enemy extends Element {
   constructor() {
     super("img", gameplayWrapper, "enemy", "./res/img/enemy.png");
     this.gap = enemyGap;
     enemyGap += window.innerWidth * 0.1;
-    this.maxHealth = this.health = 12;
+    this.maxHealth = this.health = enemyHealth;
     this.randomPos =
       Math.floor(
         Math.random() * (window.innerWidth * 0.9 - window.innerWidth * 0.02)
@@ -484,12 +502,9 @@ class Popoff extends Element {
   }
 }
 
-let uncommonChance;
-let epicChance;
-let commonCounters;
-let uncommonCounters;
-let epicCounters;
-let projectileResistance = 1;
+let uncommonChance, epicChance;
+let commonCounters, uncommonCounters, epicCounters;
+let projectileResistance;
 let leech;
 let tome;
 let soulChance;
@@ -682,7 +697,8 @@ class Card extends Element {
               // Thunderbolt
               case 10:
                 uncommonCounters[6]++;
-                thunderbolts += 2;
+                thunderbolts += thunderbolts < 6 ? 2 : 0;
+                clearInterval(thunderInterval);
                 thunderInterval = setInterval(() => {
                   spawnLightning();
                 }, 8000);
@@ -700,6 +716,13 @@ class Card extends Element {
               // Barrier
               case 1:
                 epicCounters[1]++;
+                clearInterval(barrierInterval);
+                barrierInterval = setInterval(() => {
+                  if (!barrier) {
+                    barrierElement = new Element("div", player, "barrier");
+                  }
+                  barrier = true;
+                }, 16000 / epicCounters[1]);
                 break;
               // Focus
               case 2:
@@ -722,7 +745,8 @@ class Card extends Element {
               // Thunderbolt+
               case 6:
                 uncommonCounters[6] += 2;
-                thunderbolts += 6;
+                thunderbolts += 6 - thunderbolts;
+                clearInterval(thunderInterval);
                 thunderInterval = setInterval(() => {
                   spawnLightning();
                 }, 8000);
@@ -840,64 +864,30 @@ staffButtonLeft.instance.onclick = () => {
   updateSelect();
 };
 
-let gameplayWrapper;
-let player;
+let gameplayWrapper, player, canShoot, canHurt;
 let playerPos = window.innerWidth / 2;
 let playerTop = (window.innerHeight / 100) * 68;
-
-let canShoot = true;
-let canHurt = true;
-
-let enemies = [];
-let projectiles = [];
-let cards = [];
-
-let cardsToSelect;
-
-let healthBar;
-let healthBarInside;
-let healthCounter;
-let scoreCounter;
-let score;
-let souls = 0;
-let isOver;
-
-let attackSpeed;
-let damage;
-let defense;
-let critChance;
-
-let speed;
+let enemies = (projectiles = cards = []);
+let healthBar, healthBarInside, healthCounter;
+let scoreCounter, score, isOver, soulsCounter;
+let damage, attackSpeed, defense, critChance, speed;
 let jumpSpeed = window.innerHeight / 180;
-let maxJumps;
-let remainingJumps;
-let moveLeftInterval;
-let moveRightInterval;
-let jumpInterval;
-let propellerInterval;
-let propellerIterator = 0;
-let timesJumped = 0;
-
-let fallingInterval;
-let beanieInterval;
-
-let enemiesToSpawn;
+let maxJumps, remainingJumps, enemiesToSpawn, cardsToSelect, enemyGap;
+let moveLeftInterval, moveRightInterval, jumpInterval, propellerInterval;
+let fallingInterval, beanieInterval, barrierInterval;
+let propellerIterator = (timesJumped = 0);
 // Gameplay
 startButton.instance.onclick = () => {
   mainMenuWrapper.hide();
-  isOver = false;
-  canHurt = true;
-  canShoot = true;
-  enemiesToSpawn = 3;
-  leech = 0;
-  tome = 1;
-  soulChance = 1;
-  orbChance = 0;
+  isOver = barrier = false;
+  canShoot = canHurt = true;
+  leech = orbChance = thunderbolts = enemyDamage = 0;
+  tome = projectileResistance = soulChance = enemiesToSpawn = 1;
   orbHeal = 4;
   critAmp = 1.5;
   projectileWidth = 1;
   projectileHeight = 2;
-  thunderbolts = 0;
+  enemyHealth = 10;
   refreshCost = selectedHat != 5 ? 5 : 0;
   cardsToSelect = 4;
   epicChance = 0;
@@ -910,8 +900,7 @@ startButton.instance.onclick = () => {
   epicCounters = [0, 0, 0, 0, 0];
   if (selectedHat == 1) {
     speed = window.innerWidth / 1280;
-    defense = 0.04;
-    commonCounters[5]++;
+    defense = 0.12;
   }
   remainingJumps = maxJumps =
     selectedHat == 2 ? window.innerHeight / 5.625 : 30;
@@ -985,9 +974,6 @@ const spawnEnemies = (count) => {
 let selectionWrapper;
 const cardSelect = () => {
   player.updateHealth(2, 2);
-  projectiles.forEach((projectile) => {
-    projectile.remove();
-  });
   canHurt = false;
   removeEventListener("keydown", startMoving);
   removeEventListener("mousemove", updateStaffRotation);
@@ -1018,6 +1004,10 @@ const nextRound = () => {
   canHurt = true;
   canShoot = true;
   enemyGap = 0;
+  if (score % 5 == 0) {
+    enemyHealth += 2;
+    enemyDamage += 2;
+  }
   enemiesToSpawn++;
   selectionWrapper.remove();
   score++;
@@ -1128,7 +1118,7 @@ const spawnLightning = () => {
       ) +
       window.innerWidth * 0.024;
     setTimeout(() => {
-      new Lightning(randomPos);
+      new Lightning(randomPos, false);
     }, timeout);
     timeout += 100;
   }
