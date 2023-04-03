@@ -304,7 +304,7 @@ class Projectile extends Element {
     ) {
       this.remove();
       if (canHurt) {
-        player.updateHealth(enemyDamage, 0);
+        player.updateHealth(-enemyDamage, 0);
       }
     }
   }
@@ -881,7 +881,8 @@ startButton.instance.onclick = () => {
   mainMenuWrapper.hide();
   isOver = barrier = false;
   canShoot = canHurt = true;
-  leech = orbChance = thunderbolts = enemyDamage = 0;
+  leech = orbChance = thunderbolts = 0;
+  enemyDamage = 2;
   tome = projectileResistance = soulChance = enemiesToSpawn = 1;
   orbHeal = 4;
   critAmp = 1.5;
